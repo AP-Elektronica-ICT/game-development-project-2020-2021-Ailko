@@ -36,7 +36,55 @@ namespace LostLives
         {
             if(sprite != null)
             {
-                Globals.spriteBatch.Draw(sprite, new Rectangle((int)pos.X, (int)pos.Y, (int)dims.X, (int)dims.Y), null, Color.White, 0.0f, new Vector2(sprite.Bounds.Width / 2, sprite.Bounds.Height / 2), new SpriteEffects(), 0);
+                Globals.spriteBatch.Draw
+                    (
+                        sprite,
+                        new Rectangle
+                        (
+                            (int)pos.X,
+                            (int)pos.Y,
+                            (int)dims.X,
+                            (int)dims.Y
+                        ),
+                        null,
+                        Color.White,
+                        0.0f,
+                        new Vector2
+                        (
+                            sprite.Bounds.Width / 2,
+                            sprite.Bounds.Height / 2
+                        ),
+                        SpriteEffects.None,
+                        0
+                    );
+            }
+        }
+
+        public virtual void Draw(Rectangle frame)
+        {
+            if (sprite != null)
+            {
+                Globals.spriteBatch.Draw
+                    (
+                        sprite,
+                        new Rectangle
+                        (
+                            (int)pos.X,
+                            (int)pos.Y,
+                            (int)dims.X,
+                            (int)dims.Y
+                        ),
+                        frame,
+                        Color.White,
+                        0.0f,
+                        new Vector2
+                        (
+                            sprite.Bounds.Width / 2,
+                            sprite.Bounds.Height / 2
+                        ),
+                        SpriteEffects.None,
+                        0
+                    );
             }
         }
     }
