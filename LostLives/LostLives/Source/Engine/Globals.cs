@@ -13,11 +13,18 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 #endregion
 
-namespace Lost_Lives
+namespace LostLives
 {
     public class Globals
     {
         public static ContentManager content;
         public static SpriteBatch spriteBatch;
+
+        public static LLKeyboard keyboard;
+
+        public static DateTime lastFrame;
+        public static TimeSpan deltaTime;
+
+        public static float gravity = 9.81f;
     }
 }

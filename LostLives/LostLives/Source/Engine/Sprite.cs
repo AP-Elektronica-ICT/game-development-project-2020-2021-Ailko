@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 #endregion
 
-namespace Lost_Lives
+namespace LostLives
 {
     public class Sprite
     {

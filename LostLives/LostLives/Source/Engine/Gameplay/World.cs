@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 #endregion
 
-namespace Lost_Lives
+namespace LostLives
 {
     public class World
     {
@@ -21,7 +21,7 @@ namespace Lost_Lives
 
         public World()
         {
-            hero = new Sprite("Sprites\\DoomGuySprites", new Vector2(300, 300), new Vector2(48, 48));
+            hero = new Hero("Sprites\\DoomGuySprites", new Vector2(300, 300), new Vector2(48, 48));
         }
 
         public virtual void Update()

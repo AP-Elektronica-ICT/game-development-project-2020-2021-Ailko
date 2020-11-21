@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lost_Lives
+namespace LostLives
 {
     public static class Program
     {

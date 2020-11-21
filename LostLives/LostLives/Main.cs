@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 #endregion
 
-namespace Lost_Lives
+namespace LostLives
 {
     public class Main : Game
     {
@@ -43,6 +43,8 @@ namespace Lost_Lives
 
             // TODO: use this.Content to load your game content here
 
+            Globals.keyboard = new LLKeyboard();
+
             world = new World();
         }
 
@@ -52,6 +54,8 @@ namespace Lost_Lives
                 Exit();
             // TODO: Add your update logic here
 
+            Globals.keyboard.Update();
+
             world.Update();
 
             base.Update(gameTime);
@@ -59,6 +63,8 @@ namespace Lost_Lives
 
         protected override void Draw(GameTime gameTime)
         {
+            Globals.deltaTime = DateTime.Now - Globals.lastFrame;
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
@@ -70,6 +76,8 @@ namespace Lost_Lives
             Globals.spriteBatch.End();
 
             base.Draw(gameTime);
+
+            Globals.lastFrame = DateTime.Now;
         }
     }
 }
