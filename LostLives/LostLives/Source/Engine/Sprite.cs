@@ -15,12 +15,12 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Lost_Lives
 {
-    public class Basic2D
+    public class Sprite
     {
         public Vector2 pos, dims;
         public Texture2D sprite;
 
-        public Basic2D(string _path, Vector2 _pos, Vector2 _dims)
+        public Sprite(string _path, Vector2 _pos, Vector2 _dims)
         {
             pos = _pos;
             dims = _dims;

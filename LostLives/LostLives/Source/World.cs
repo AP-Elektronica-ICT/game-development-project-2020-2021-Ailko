@@ -17,19 +17,21 @@ namespace Lost_Lives
 {
     public class World
     {
+        public Sprite hero;
+
         public World()
         {
-
+            hero = new Sprite("Sprites\\DoomGuySprites", new Vector2(300, 300), new Vector2(48, 48));
         }
 
         public virtual void Update()
         {
-
+            hero.Update();
         }
 
         public virtual void Draw()
         {
-
+            hero.Draw();
         }
     }
 }
