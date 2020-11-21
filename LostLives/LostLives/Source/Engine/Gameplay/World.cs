@@ -21,7 +21,7 @@ namespace LostLives
 
         public World()
         {
-            hero = new Hero("Sprites\\DoomGuySprites", new Vector2(300, 300), new Vector2(48, 48));
+            hero = new Hero("Sprites\\DoomGuy", new Vector2(500, 300), new Vector2(570, 166));
         }
 
         public virtual void Update()
