@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/School/Game Development/game-development-project-2020-2021-Ailko/LostLives/LostLives/Content/Sprites/DoomGuySprites.png</SourceFile>
-  <SourceTime>2020-11-21T13:31:35.0581145+01:00</SourceTime>
-  <DestFile>D:/School/Game Development/game-development-project-2020-2021-Ailko/LostLives/LostLives/Content/bin/Windows/Content/Sprites/DoomGuySprites.xnb</DestFile>
-  <DestTime>2020-11-21T18:34:35.3707702+01:00</DestTime>
+  <SourceFile>D:/School/Game Development/game-development-project-2020-2021-Ailko/LostLives/LostLives/Content/Sprites/DoomGuyWalkingSprites.png</SourceFile>
+  <SourceTime>2020-11-21T18:06:05.1578437+01:00</SourceTime>
+  <DestFile>D:/School/Game Development/game-development-project-2020-2021-Ailko/LostLives/LostLives/Content/bin/Windows/Content/Sprites/DoomGuyWalkingSprites.xnb</DestFile>
+  <DestTime>2020-11-21T18:11:46.2549885+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

@@ -34,4 +34,4 @@ D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\Lo
 D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\obj\Debug\netcoreapp3.1\LostLives.dll
 D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\obj\Debug\netcoreapp3.1\LostLives.pdb
 D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\obj\Debug\netcoreapp3.1\LostLives.genruntimeconfig.cache
-D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\bin\Debug\netcoreapp3.1\Content\Sprites\DoomGuySprites.xnb
+D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\bin\Debug\netcoreapp3.1\Content\Sprites\DoomGuy.xnb

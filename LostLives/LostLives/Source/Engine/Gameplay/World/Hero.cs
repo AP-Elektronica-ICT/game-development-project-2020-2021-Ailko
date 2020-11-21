@@ -16,7 +16,9 @@ using Microsoft.Xna.Framework.Media;
 namespace LostLives
 {
     public class Hero : Sprite
-    {
+    {   // walking width = 41, shooting width = 51, death width = 57
+        private int frame;
+
         private float speed = 2;
         private float jumpForce = 7.5f;
 
@@ -24,9 +26,10 @@ namespace LostLives
 
         private bool hasJumped = false;
         private float jumpedFromY = 0;
+
         public Hero(string _path, Vector2 _pos, Vector2 _dims) : base(_path, _pos, _dims)
         {
-
+            frame = 0;
         }
 
         public override void Update()
@@ -59,16 +62,17 @@ namespace LostLives
             {
                 vector.Y = 0;
                 hasJumped = false;
+
+                frame = (frame + 1) % 4;
             }
 
             pos = new Vector2(pos.X + vector.X, pos.Y + vector.Y);
-
-            base.Update();
         }
 
         public override void Draw()
         {
-            base.Draw();
+            //base.Draw();
+            base.Draw(new Rectangle(frame * 41, 0, 41, 54));
         }
     }
 }

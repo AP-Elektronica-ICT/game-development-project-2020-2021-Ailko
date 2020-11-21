@@ -19,14 +19,6 @@
     <None Remove="Content\obj\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Content\Sprites\DoomGuySprites.xnb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\Sprites\DoomGuySprites.xnb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>
