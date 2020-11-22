@@ -18,10 +18,28 @@ namespace LostLives
     public class World
     {
         public Sprite hero;
+        public Levels levels;
 
         public World()
         {
-            hero = new Hero("Sprites\\DoomGuy", new Vector2(500, 300), new Vector2(570, 166));
+            hero = new Hero("Sprites\\DoomGuy", new Vector2(500, 300), new Vector2(41, 54));
+            levels = new Levels
+            (
+                new Level[]
+                {
+                    new Level
+                    (
+                        new Platform[]
+                        {
+                            new Platform
+                            (
+                                27,
+                                new Vector2(500, 400)
+                            )
+                        }
+                    )
+                }
+            );
         }
 
         public virtual void Update()
@@ -32,6 +50,7 @@ namespace LostLives
         public virtual void Draw()
         {
             hero.Draw();
+            levels.Draw();
         }
     }
 }

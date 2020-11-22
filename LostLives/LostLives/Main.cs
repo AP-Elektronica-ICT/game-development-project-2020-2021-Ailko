@@ -45,7 +45,11 @@ namespace LostLives
 
             Globals.keyboard = new LLKeyboard();
 
+            Globals.rng = new Random();
+
             world = new World();
+
+            Globals.currWorld = world;
         }
 
         protected override void Update(GameTime gameTime)

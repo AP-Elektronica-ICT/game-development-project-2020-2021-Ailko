@@ -5,8 +5,10 @@
   <Config />
   <SourceFiles>
     <File>D:/School/Game Development/game-development-project-2020-2021-Ailko/LostLives/LostLives/Content/Sprites/DoomGuy.png</File>
+    <File>D:/School/Game Development/game-development-project-2020-2021-Ailko/LostLives/LostLives/Content/Tiles/mainlev_build.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

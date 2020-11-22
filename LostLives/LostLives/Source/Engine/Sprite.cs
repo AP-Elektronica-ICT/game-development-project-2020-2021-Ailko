@@ -24,7 +24,8 @@ namespace LostLives
         {
             pos = _pos;
             dims = _dims;
-            sprite = Globals.content.Load<Texture2D>(_path);
+            if(_path != "")
+                sprite = Globals.content.Load<Texture2D>(_path);
         }
 
         public virtual void Update()
@@ -60,7 +61,7 @@ namespace LostLives
             }
         }
 
-        public virtual void Draw(Rectangle frame)
+        public virtual void Draw(Rectangle frame, Vector2 dimChange, SpriteEffects effect = SpriteEffects.None)
         {
             if (sprite != null)
             {
@@ -71,8 +72,8 @@ namespace LostLives
                         (
                             (int)pos.X,
                             (int)pos.Y,
-                            (int)dims.X,
-                            (int)dims.Y
+                            (int)(dims.X + dimChange.X),
+                            (int)(dims.Y + dimChange.Y)
                         ),
                         frame,
                         Color.White,
@@ -82,7 +83,35 @@ namespace LostLives
                             sprite.Bounds.Width / 2,
                             sprite.Bounds.Height / 2
                         ),
-                        SpriteEffects.None,
+                        effect,
+                        0
+                    );
+            }
+        }
+
+        public virtual void Draw(Rectangle frame, Vector2 dimChange, Vector2 posChange, SpriteEffects effect = SpriteEffects.None)
+        {
+            if (sprite != null)
+            {
+                Globals.spriteBatch.Draw
+                    (
+                        sprite,
+                        new Rectangle
+                        (
+                            (int)(pos.X + posChange.X),
+                            (int)(pos.Y + posChange.Y),
+                            (int)(dims.X + dimChange.X),
+                            (int)(dims.Y + dimChange.Y)
+                        ),
+                        frame,
+                        Color.White,
+                        0.0f,
+                        new Vector2
+                        (
+                            sprite.Bounds.Width / 2,
+                            sprite.Bounds.Height / 2
+                        ),
+                        effect,
                         0
                     );
             }

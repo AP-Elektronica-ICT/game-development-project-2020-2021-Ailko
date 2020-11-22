@@ -26,5 +26,11 @@ namespace LostLives
         public static TimeSpan deltaTime;
 
         public static float gravity = 9.81f;
+
+        public static Random rng;
+
+        public static Vector2 screenSize;
+
+        public static World currWorld;
     }
 }
