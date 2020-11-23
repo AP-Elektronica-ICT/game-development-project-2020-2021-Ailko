@@ -24,7 +24,7 @@ namespace LostLives
         private Rectangle collisionBox;
         public float bounciness;
 
-        public Platform(int _length, Vector2 _pos, float _bounciness = 1f, TrailOffs _trailOff = TrailOffs.None, bool _isGround = true) : base("Tiles\\mainlev_build", _pos, new Vector2(32, 33))
+        public Platform(int _length, Vector2 _pos, float _bounciness = 0f, TrailOffs _trailOff = TrailOffs.None, bool _isGround = true) : base("Tiles\\mainlev_build", _pos, new Vector2(32, 33))
         {
             tiles = new Rectangle[_length];
 
@@ -77,12 +77,7 @@ namespace LostLives
 
         public bool CollisionCheck(CollisionObject obj)
         {
-            return new Rectangle((int)pos.X, (int)pos.Y, (int)dims.X, (int)dims.Y).Intersects(obj.GetCollisionBox());
-        }
-
-        public Rectangle GetCollisionBox()
-        {
-            return collisionBox;
+            return GetCollisionBox().Intersects(obj.GetCollisionBox());
         }
 
         public override void Draw()
@@ -97,18 +92,18 @@ namespace LostLives
                 case TrailOffs.Left:
                     startIndex++;
                     frontOffset = 53;
-                    base.Draw(tiles[0], new Vector2(21, 0));
+                    base.Draw(tiles[0], new Vector2(21, 0), new Vector2(0, 1));
                     break;
                 case TrailOffs.Right:
                     endIndex--;
-                    base.Draw(tiles[0], new Vector2(21, 0), new Vector2(tiles.Length * 32, 0));
+                    base.Draw(tiles[endIndex], new Vector2(21, 0), new Vector2((tiles.Length - 1) * 32, 1));
                     break;
                 case TrailOffs.Both:
                     startIndex++;
                     frontOffset = 53;
-                    base.Draw(tiles[0], new Vector2(21, 0));
+                    base.Draw(tiles[0], new Vector2(21, 0), new Vector2(0, 1));
                     endIndex--;
-                    base.Draw(tiles[0], new Vector2(21, 0), new Vector2((tiles.Length - 1) * 32 + 53, 0));
+                    base.Draw(tiles[endIndex], new Vector2(21, 0), new Vector2((tiles.Length - 2) * 32 + 53, 1));
                     break;
             }
 
@@ -116,6 +111,15 @@ namespace LostLives
             {
                 base.Draw(tiles[i], Vector2.Zero, new Vector2(frontOffset + (i - startIndex) * 32, 0));
             }
+        }
+
+        public float GetBounciness()
+        {
+            return bounciness;
+        }
+        public Rectangle GetCollisionBox()
+        {
+            return collisionBox;
         }
     }
 }

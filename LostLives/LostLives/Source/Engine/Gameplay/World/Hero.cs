@@ -21,7 +21,7 @@ namespace LostLives
         private int frame;
 
         private float speed = 2;
-        private float jumpForce = 10f;
+        private float jumpForce = 7f;
         private float mass = 81.63f;
 
         private Vector2 vector = new Vector2(0f, 0f);
@@ -51,25 +51,6 @@ namespace LostLives
             }
             vector.X -= vector.X / 20;
 
-            if ((Globals.keyboard.GetPress("Z") || Globals.keyboard.GetPress("Space") || Globals.keyboard.GetPress("Up")) && !hasJumped)
-            {
-                hasJumped = true;
-                jumpedFromY = pos.Y;
-                vector.Y -= jumpForce;
-            }
-            if(!hasJumped)
-            {
-                frame = (int)((frame + 1) % (24 / MathF.Sqrt((float)(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2)))));
-                if(frame == 0)
-                    animationFrame = (animationFrame + 1) % 4;
-            }
-
-            if (Math.Round(vector.Y, 1) == 0)
-            {
-                vector.Y = 0;
-                hasJumped = false;
-            }
-
             float drag = -0.5f * Globals.airDensity * 0.7f * 0.2f * (float)Math.Pow(vector.Y, 3) / Math.Abs(vector.Y);
             if (float.IsNaN(drag))
                 drag = 0;
@@ -77,35 +58,36 @@ namespace LostLives
 
             vector.Y += (gravitationalAcceleration + drag) * (float)Globals.deltaTime.TotalSeconds * (54 / 182.88f);
 
-            int currCollPlatIndex = Globals.currWorld.levels.GetCurrLevel().Update(this);
-            if(currCollPlatIndex != -1)
+            Vector2 collisionVector = Globals.currWorld.levels.GetCurrLevel().CollisionSpecifics(this);
+
+            if (collisionVector.Y < 0)
+                hasJumped = false;
+
+            if ((Globals.keyboard.GetPress("Z") || Globals.keyboard.GetPress("Space") || Globals.keyboard.GetPress("Up")) && !hasJumped)
             {
-                Platform currCollPlat = Globals.currWorld.levels.GetCurrLevel().platforms[currCollPlatIndex];
-                int relativePos = (int)(pos.Y - currCollPlat.GetCollisionBox().Y);
-                if (relativePos < -dims.Y - 1)
-                {
-                    vector.Y -= (float)(Math.Pow(GetSpeed(), currCollPlat.bounciness) * ((currCollPlat.pos.Y - pos.Y) / currCollPlat.GetCollisionBox().Height));
-                }
-                else if(relativePos > 0)
-                {
-                    vector.Y += (float)(Math.Pow(GetSpeed(), currCollPlat.bounciness) * ((pos.Y - currCollPlat.pos.Y) / currCollPlat.GetCollisionBox().Height));
-                }
-                else
-                {
-                    vector.Y = 0;
-                }
+                hasJumped = true;
+                jumpedFromY = pos.Y;
+                vector.Y -= jumpForce;
             }
+            if (!hasJumped)
+            {
+                frame = (int)((frame + 1) % (24 / MathF.Sqrt((float)(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2)))));
+                if (frame == 0)
+                    animationFrame = (animationFrame + 1) % 4;
+            }
+
+            vector += collisionVector;
 
             vector.X = (float)Math.Round(vector.X, 3);
             vector.Y = (float)Math.Round(vector.Y, 3);
 
             pos = new Vector2(pos.X + vector.X, pos.Y + vector.Y);
 
-            if(pos.Y > 400)
+            /*if(pos.Y > 400)
             {
                 pos.Y = 400;
                 vector.Y = 0;
-            }
+            }*/
         }
 
         public bool CollisionCheck(CollisionObject obj)
@@ -115,7 +97,7 @@ namespace LostLives
 
         public Rectangle GetCollisionBox()
         {
-            return new Rectangle((int)(pos.X - dims.X / 2), (int)(pos.Y - dims.Y/2), (int)dims.X, (int)dims.Y);
+            return new Rectangle((int)pos.X, (int)pos.Y, (int)dims.X, (int)dims.Y);
         }
 
         public override void Draw()
@@ -137,11 +119,17 @@ namespace LostLives
                 else
                     base.Draw(new Rectangle(0, 54, 52, 53), new Vector2(11, -1));
             }
+            Globals.spriteBatch.DrawString(Globals.arial, $"{vector}", new Vector2(100, 100), Color.Black);
         }
 
-        private float GetSpeed()
+        private float GetTotalSpeed()
         {
             return (float)Math.Sqrt(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2));
+        }
+
+        public Vector2 GetSpeed()
+        {
+            return vector;
         }
     }
 }

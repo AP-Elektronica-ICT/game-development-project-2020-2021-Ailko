@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace LostLives
 {
-    public class Level : Sprite
+    public class Level : Sprite, CollisionObject
     {
         public Platform[] platforms;
         public Texture2D background;
@@ -28,21 +28,35 @@ namespace LostLives
             }
         }
 
-        public int Update(CollisionObject obj)
+        public bool CollisionCheck(CollisionObject obj)
         {
-            for(int i = 0; i < platforms.Length; i++)
+            for (int i = 0; i < platforms.Length; i++)
             {
                 if(platforms[i].CollisionCheck(obj))
                 {
-                    return i;
+                    return true;
                 }
             }
-            return -1;
+            return false;
+        }
+
+        public Vector2 CollisionSpecifics(CollisionObject obj)
+        {
+            Vector2 collisionVector = Vector2.Zero;
+
+            foreach(Platform platform in platforms)
+            {
+                if(platform.CollisionCheck(obj))
+                {
+                    collisionVector += CollisionObject.CollisionSpecifics(obj, platform);
+                }
+            }
+
+            return collisionVector;
         }
 
         public override void Draw()
         {
-            //base.Draw();
             foreach(Platform platform in platforms)
             {
                 platform.Draw();

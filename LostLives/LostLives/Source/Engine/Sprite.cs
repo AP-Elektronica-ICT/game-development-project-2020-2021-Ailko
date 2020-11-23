@@ -49,12 +49,8 @@ namespace LostLives
                         ),
                         null,
                         Color.White,
-                        0.0f,
-                        new Vector2
-                        (
-                            sprite.Bounds.Width / 2,
-                            sprite.Bounds.Height / 2
-                        ),
+                        0,
+                        Vector2.Zero,
                         SpriteEffects.None,
                         0
                     );
@@ -77,12 +73,8 @@ namespace LostLives
                         ),
                         frame,
                         Color.White,
-                        0.0f,
-                        new Vector2
-                        (
-                            sprite.Bounds.Width / 2,
-                            sprite.Bounds.Height / 2
-                        ),
+                        0,
+                        Vector2.Zero,
                         effect,
                         0
                     );
@@ -105,12 +97,8 @@ namespace LostLives
                         ),
                         frame,
                         Color.White,
-                        0.0f,
-                        new Vector2
-                        (
-                            sprite.Bounds.Width / 2,
-                            sprite.Bounds.Height / 2
-                        ),
+                        0,
+                        Vector2.Zero,
                         effect,
                         0
                     );

@@ -25,7 +25,9 @@ namespace LostLives
         public static DateTime lastFrame;
         public static TimeSpan deltaTime;
 
-        public static float gravity = 9.81f * (182.88f / 54);
+        public static float metersPerPixel = 182.88f / 54;
+
+        public static float gravity = 9.81f * metersPerPixel;
         public static float airDensity = 1.225f;
 
         public static Random rng;
@@ -33,5 +35,7 @@ namespace LostLives
         public static Vector2 screenSize;
 
         public static World currWorld;
+
+        public static SpriteFont arial;
     }
 }

@@ -49,6 +49,8 @@ namespace LostLives
 
             world = new World();
 
+            Globals.arial = Globals.content.Load<SpriteFont>("Fonts\\Arial16");
+
             Globals.currWorld = world;
             Globals.lastFrame = DateTime.Now;
         }

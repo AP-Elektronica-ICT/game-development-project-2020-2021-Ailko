@@ -22,7 +22,7 @@ namespace LostLives
 
         public World()
         {
-            hero = new Hero("Sprites\\DoomGuy", new Vector2(500, 300), new Vector2(41, 54));
+            hero = new Hero("Sprites\\DoomGuy", new Vector2(0, 200), new Vector2(41, 54));
             levels = new Levels
             (
                 new Level[]
@@ -33,8 +33,9 @@ namespace LostLives
                         {
                             new Platform
                             (
-                                27,
-                                new Vector2(450, 350)
+                                20,
+                                new Vector2(0, 350),
+                                _trailOff: TrailOffs.Right
                             )
                         }
                     )
