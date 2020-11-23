@@ -50,6 +50,7 @@ namespace LostLives
             world = new World();
 
             Globals.currWorld = world;
+            Globals.lastFrame = DateTime.Now;
         }
 
         protected override void Update(GameTime gameTime)
@@ -67,8 +68,6 @@ namespace LostLives
 
         protected override void Draw(GameTime gameTime)
         {
-            Globals.deltaTime = DateTime.Now - Globals.lastFrame;
-
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
@@ -80,8 +79,6 @@ namespace LostLives
             Globals.spriteBatch.End();
 
             base.Draw(gameTime);
-
-            Globals.lastFrame = DateTime.Now;
         }
     }
 }

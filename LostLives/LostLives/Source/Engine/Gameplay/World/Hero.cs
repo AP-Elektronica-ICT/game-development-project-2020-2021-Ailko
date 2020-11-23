@@ -21,7 +21,8 @@ namespace LostLives
         private int frame;
 
         private float speed = 2;
-        private float jumpForce = 7.5f;
+        private float jumpForce = 10f;
+        private float mass = 81.63f;
 
         private Vector2 vector = new Vector2(0f, 0f);
 
@@ -63,23 +64,48 @@ namespace LostLives
                     animationFrame = (animationFrame + 1) % 4;
             }
 
-            vector.Y += Globals.gravity * (float)Globals.deltaTime.TotalSeconds - vector.Y * 0.2f;
+            if (Math.Round(vector.Y, 1) == 0)
+            {
+                vector.Y = 0;
+                hasJumped = false;
+            }
+
+            float drag = -0.5f * Globals.airDensity * 0.7f * 0.2f * (float)Math.Pow(vector.Y, 3) / Math.Abs(vector.Y);
+            if (float.IsNaN(drag))
+                drag = 0;
+            float gravitationalAcceleration = Globals.gravity;
+
+            vector.Y += (gravitationalAcceleration + drag) * (float)Globals.deltaTime.TotalSeconds * (54 / 182.88f);
 
             int currCollPlatIndex = Globals.currWorld.levels.GetCurrLevel().Update(this);
             if(currCollPlatIndex != -1)
             {
                 Platform currCollPlat = Globals.currWorld.levels.GetCurrLevel().platforms[currCollPlatIndex];
-                if (currCollPlat.pos.Y > pos.Y)
+                int relativePos = (int)(pos.Y - currCollPlat.GetCollisionBox().Y);
+                if (relativePos < -dims.Y - 1)
                 {
-                    vector.Y -= (float)(9.81f * Globals.deltaTime.TotalSeconds * Math.Pow(this.GetSpeed() / (9.81f * Globals.deltaTime.TotalSeconds), currCollPlat.bounciness));
+                    vector.Y -= (float)(Math.Pow(GetSpeed(), currCollPlat.bounciness) * ((currCollPlat.pos.Y - pos.Y) / currCollPlat.GetCollisionBox().Height));
+                }
+                else if(relativePos > 0)
+                {
+                    vector.Y += (float)(Math.Pow(GetSpeed(), currCollPlat.bounciness) * ((pos.Y - currCollPlat.pos.Y) / currCollPlat.GetCollisionBox().Height));
                 }
                 else
                 {
-                    vector.Y += (float)(9.81f * Globals.deltaTime.TotalSeconds * Math.Pow(this.GetSpeed() / (9.81f * Globals.deltaTime.TotalSeconds), currCollPlat.bounciness));
+                    vector.Y = 0;
                 }
             }
 
+            vector.X = (float)Math.Round(vector.X, 3);
+            vector.Y = (float)Math.Round(vector.Y, 3);
+
             pos = new Vector2(pos.X + vector.X, pos.Y + vector.Y);
+
+            if(pos.Y > 400)
+            {
+                pos.Y = 400;
+                vector.Y = 0;
+            }
         }
 
         public bool CollisionCheck(CollisionObject obj)
@@ -89,7 +115,7 @@ namespace LostLives
 
         public Rectangle GetCollisionBox()
         {
-            return new Rectangle((int)pos.X, (int)pos.Y, (int)dims.X, (int)dims.Y);
+            return new Rectangle((int)(pos.X - dims.X / 2), (int)(pos.Y - dims.Y/2), (int)dims.X, (int)dims.Y);
         }
 
         public override void Draw()

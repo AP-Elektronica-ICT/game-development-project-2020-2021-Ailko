@@ -35,5 +35,4 @@ D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\Lo
 D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\obj\Debug\netcoreapp3.1\LostLives.pdb
 D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\obj\Debug\netcoreapp3.1\LostLives.genruntimeconfig.cache
 D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\bin\Debug\netcoreapp3.1\Content\Sprites\DoomGuy.xnb
-D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\bin\Debug\netcoreapp3.1\Content\mainlev_build.xnb
 D:\School\Game Development\game-development-project-2020-2021-Ailko\LostLives\LostLives\bin\Debug\netcoreapp3.1\Content\Tiles\mainlev_build.xnb

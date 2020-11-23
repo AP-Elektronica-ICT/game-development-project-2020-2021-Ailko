@@ -25,7 +25,8 @@ namespace LostLives
         public static DateTime lastFrame;
         public static TimeSpan deltaTime;
 
-        public static float gravity = 9.81f;
+        public static float gravity = 9.81f * (182.88f / 54);
+        public static float airDensity = 1.225f;
 
         public static Random rng;
 

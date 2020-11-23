@@ -34,7 +34,7 @@ namespace LostLives
                             new Platform
                             (
                                 27,
-                                new Vector2(500, 400)
+                                new Vector2(450, 350)
                             )
                         }
                     )
@@ -44,7 +44,11 @@ namespace LostLives
 
         public virtual void Update()
         {
+            Globals.deltaTime = DateTime.Now - Globals.lastFrame;
+
             hero.Update();
+
+            Globals.lastFrame = DateTime.Now;
         }
 
         public virtual void Draw()

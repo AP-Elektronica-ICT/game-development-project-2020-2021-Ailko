@@ -24,7 +24,7 @@ namespace LostLives
         private Rectangle collisionBox;
         public float bounciness;
 
-        public Platform(int _length, Vector2 _pos, float _bounciness = 1.1f, TrailOffs _trailOff = TrailOffs.None, bool _isGround = true) : base("Tiles\\mainlev_build", _pos, new Vector2(32, 33))
+        public Platform(int _length, Vector2 _pos, float _bounciness = 1f, TrailOffs _trailOff = TrailOffs.None, bool _isGround = true) : base("Tiles\\mainlev_build", _pos, new Vector2(32, 33))
         {
             tiles = new Rectangle[_length];
 
@@ -34,51 +34,42 @@ namespace LostLives
 
             trailOff = _trailOff;
 
+            int startIndex = 0;
+            int endIndex = tiles.Length;
+
             switch(trailOff)
             {
-                case TrailOffs.None:
-                    for(int i = 0; i < tiles.Length; i++)
-                    {
-                        tiles[i] = groundTilePos[Globals.rng.Next(0, 4)];
-                        totalLength += 32;
-                    }
-                    break;
                 case TrailOffs.Left:
+
                     tiles[0] = new Rectangle(619, 240, 53, 32);
                     totalLength += 53;
-
-                    for (int i = 1; i < tiles.Length; i++)
-                    {
-                        tiles[i] = groundTilePos[Globals.rng.Next(0, 4)];
-                        totalLength += 32;
-                    }
+                    startIndex++;
 
                     break;
                 case TrailOffs.Right:
-                    for (int i = 0; i < tiles.Length - 1; i++)
-                    {
-                        tiles[i] = groundTilePos[Globals.rng.Next(0, 4)];
-                        totalLength += 32;
-                    }
 
                     tiles[tiles.Length - 1] = new Rectangle(16, 240, 53, 33);
                     totalLength += 53;
+                    endIndex--;
 
                     break;
                 case TrailOffs.Both:
+
                     tiles[0] = new Rectangle(619, 240, 53, 33);
                     totalLength += 53;
-
-                    for (int i = 1; i < tiles.Length - 1; i++)
-                    {
-                        tiles[i] = groundTilePos[Globals.rng.Next(0, 4)];
-                        totalLength += 32;
-                    }
+                    startIndex++;
 
                     tiles[tiles.Length - 1] = new Rectangle(16, 240, 53, 33);
                     totalLength += 53;
+                    endIndex--;
 
                     break;
+            }
+
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                tiles[i] = groundTilePos[Globals.rng.Next(0, 4)];
+                totalLength += 32;
             }
 
             collisionBox = new Rectangle((int)_pos.X, (int)_pos.Y, totalLength, 33);
