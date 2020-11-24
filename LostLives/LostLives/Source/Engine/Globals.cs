@@ -25,10 +25,11 @@ namespace LostLives
         public static DateTime lastFrame;
         public static TimeSpan deltaTime;
 
-        public static float metersPerPixel = 182.88f / 54;
+        public static float metersPerPixel = 1.8288f / 54;
 
         public static float gravity = 9.81f * metersPerPixel;
         public static float airDensity = 1.225f;
+        public static float dragCoeff = 1f;
 
         public static Random rng;
 

@@ -25,26 +25,26 @@ namespace LostLives
             Rectangle obj1Box = obj1.GetCollisionBox();
             Rectangle obj2Box = obj2.GetCollisionBox();
 
-            if(obj1Box.Bottom > obj2Box.Top && obj1Box.Top < obj2Box.Top)
+            if(obj1Box.Bottom > obj2Box.Top && obj1Box.Top < obj2Box.Top && !(obj1Box.Left + obj1Box.Width / 2 <= obj2Box.Left || obj1Box.Right - obj1Box.Width / 2 >= obj2Box.Right))
             {
                 if(obj1.GetSpeed().Y > 0)
-                    collisionVector.Y -= obj1.GetSpeed().Y * (1 + (obj2.GetBounciness() / 10) + (obj1Box.Bottom - obj2Box.Top) / 10);
+                    collisionVector.Y -= obj1.GetSpeed().Y * (1 + (obj2.GetBounciness() / 10)) * (1 + ((obj1Box.Bottom - obj2Box.Top) / obj1Box.Height) * 100);
             }
-            else if(obj1Box.Top < obj2Box.Bottom && obj1Box.Bottom > obj2Box.Bottom)
+            else if(obj1Box.Top < obj2Box.Bottom && obj1Box.Bottom > obj2Box.Bottom && !(obj1Box.Left + obj1Box.Width / 2 <= obj2Box.Left || obj1Box.Right - obj1Box.Width / 2 >= obj2Box.Right))
             {
                 if (obj1.GetSpeed().Y < 0)
-                    collisionVector.Y -= obj1.GetSpeed().Y * (1 + (obj2.GetBounciness() / 10) + (obj1Box.Top - obj2Box.Bottom) / 10);
+                    collisionVector.Y -= obj1.GetSpeed().Y * (1 + (obj2.GetBounciness() / 10)) * (1 + ((obj1Box.Top - obj2Box.Bottom) / obj1Box.Height) * 100);
             }
 
-            if(obj1Box.Right > obj2Box.Left && obj1Box.Left < obj2Box.Left && obj1Box.Top >= obj2Box.Top)
+            if(obj1Box.Right > obj2Box.Left && obj1Box.Left < obj2Box.Left && (obj1Box.Top + obj1Box.Height / 2 <= obj2Box.Top || obj1Box.Bottom - obj1Box.Height / 2 >= obj2Box.Top))
             {
-                if(obj1.GetSpeed().X > 0)
-                    collisionVector.X -= obj1.GetSpeed().X * (1 + (obj2.GetBounciness() / 10) + (obj1Box.Right - obj2Box.Left) / 10);
+                if (obj1.GetSpeed().X > 0)
+                    collisionVector.X -= obj1.GetSpeed().X * (1 + (obj2.GetBounciness() / 10)) + (1 + ((obj1Box.Right - obj2Box.Left) / obj1Box.Width) * 100);
             }
-            else if (obj1Box.Left < obj2Box.Right && obj1Box.Right > obj2Box.Right && obj1Box.Top >= obj2Box.Top)
+            else if (obj1Box.Left < obj2Box.Right && obj1Box.Right > obj2Box.Right && (obj1Box.Top + obj1Box.Height / 2 <= obj2Box.Top || obj1Box.Bottom - obj1Box.Height / 2 >= obj2Box.Top))
             {
                 if (obj1.GetSpeed().X < 0)
-                    collisionVector.X -= obj1.GetSpeed().X * (1 + (obj2.GetBounciness() / 10) + (obj1Box.Left - obj2Box.Right) / 10);
+                    collisionVector.X -= obj1.GetSpeed().X * (1 + (obj2.GetBounciness() / 10)) + (1 + ((obj1Box.Left - obj2Box.Right) / obj1Box.Width) * 100);
             }
 
             return collisionVector;

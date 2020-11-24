@@ -20,16 +20,17 @@ namespace LostLives
         private int animationFrame;
         private int frame;
 
+        #region physics constants
         private float speed = 2;
         private float walkingAccelaration = 0.1f;
         private float walkingAccelarationMultiplier = 1f;
-        private float jumpForce = 7f;
-        private float mass = 81.63f;
+        private float jumpForce = 3f;
+        private float mass = 163.29f;
+        #endregion
 
         private Vector2 vector = new Vector2(0f, 0f);
 
         private bool hasJumped = false;
-        private float jumpedFromY = 0;
 
         private bool lastDirRight = false;
 
@@ -41,7 +42,8 @@ namespace LostLives
 
         public override void Update()
         {
-            if(Globals.keyboard.GetPress("Q") || Globals.keyboard.GetPress("Left"))
+            #region Input horizontal movement
+            if (Globals.keyboard.GetPress("Q") || Globals.keyboard.GetPress("Left"))
             {
                 if (vector.X > -speed)
                     vector.X -= walkingAccelaration * walkingAccelarationMultiplier;
@@ -51,17 +53,17 @@ namespace LostLives
                 if (vector.X < speed)
                     vector.X += walkingAccelaration * walkingAccelarationMultiplier;
             }
-            vector.X -= vector.X / 20;
+            #endregion
 
-            float drag = -0.5f * Globals.airDensity * 0.7f * 0.2f * (float)Math.Pow(vector.Y, 3) / Math.Abs(vector.Y);
-            if (float.IsNaN(drag))
-                drag = 0;
-            float gravitationalAcceleration = Globals.gravity;
+            Vector2 drag = DragVector();
+            drag /= mass;
+            Vector2 gravitationalAcceleration = new Vector2(0, Globals.gravity * mass);
 
-            vector.Y += (gravitationalAcceleration + drag) * (float)Globals.deltaTime.TotalSeconds * (54 / 182.88f);
+            vector += (drag + gravitationalAcceleration) * (float)Globals.deltaTime.TotalSeconds * Globals.metersPerPixel;
 
             Vector2 collisionVector = Globals.currWorld.levels.GetCurrLevel().CollisionSpecifics(this);
 
+            #region CheckInAir
             if (collisionVector.Y < 0)
             {
                 hasJumped = false;
@@ -73,6 +75,7 @@ namespace LostLives
                 hasJumped = true;
                 walkingAccelarationMultiplier = 0.5f;
             }
+            #endregion
 
             if ((Globals.keyboard.GetPress("Z") || Globals.keyboard.GetPress("Space") || Globals.keyboard.GetPress("Up")) && !hasJumped)
             {
@@ -92,7 +95,20 @@ namespace LostLives
             vector.X = (float)Math.Round(vector.X, 3);
             vector.Y = (float)Math.Round(vector.Y, 3);
 
-            pos = new Vector2(pos.X + vector.X, pos.Y + vector.Y);
+            pos += vector;
+        }
+
+        private Vector2 DragVector()
+        {
+            float dragY = -0.5f * Globals.airDensity * Globals.dragCoeff * (float)Math.Pow(GetCollisionBox().Width * Globals.metersPerPixel, 2) * (float)Math.Pow(vector.Y, 3) / Math.Abs(vector.Y);
+            float dragX = -0.5f * Globals.airDensity * Globals.dragCoeff * (float)Math.Pow(GetCollisionBox().Height * Globals.metersPerPixel, 2) * (float)Math.Pow(vector.X, 3) / Math.Abs(vector.X);
+
+            if (float.IsNaN(dragY))
+                dragY = 0;
+            if (float.IsNaN(dragX))
+                dragX = 0;
+
+            return new Vector2(dragX, dragY);
         }
 
         public bool CollisionCheck(CollisionObject obj)
@@ -124,7 +140,7 @@ namespace LostLives
                 else
                     base.Draw(new Rectangle(0, 54, 52, 53), new Vector2(11, -1));
             }
-            Globals.spriteBatch.DrawString(Globals.arial, $"{vector}", new Vector2(100, 100), Color.Black);
+            Globals.spriteBatch.DrawString(Globals.arial, $"{vector}", new Vector2(100, 100), Color.White);
         }
 
         private float GetTotalSpeed()
