@@ -34,8 +34,15 @@ namespace LostLives
                             new Platform
                             (
                                 20,
-                                new Vector2(0, 350),
+                                new Vector2(0, 467),
                                 _trailOff: TrailOffs.Right
+                            ),
+
+                            new Platform
+                            (
+                                5,
+                                new Vector2(420, 350),
+                                _trailOff: TrailOffs.Both
                             )
                         }
                     )

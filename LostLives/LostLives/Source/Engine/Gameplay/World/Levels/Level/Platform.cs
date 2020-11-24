@@ -41,26 +41,26 @@ namespace LostLives
             {
                 case TrailOffs.Left:
 
-                    tiles[0] = new Rectangle(619, 240, 53, 32);
-                    totalLength += 53;
+                    tiles[0] = new Rectangle(400, 175, 32, 33);
+                    totalLength += 32;
                     startIndex++;
 
                     break;
                 case TrailOffs.Right:
 
-                    tiles[tiles.Length - 1] = new Rectangle(16, 240, 53, 33);
-                    totalLength += 53;
+                    tiles[tiles.Length - 1] = new Rectangle(256, 175, 32, 33);
+                    totalLength += 32;
                     endIndex--;
 
                     break;
                 case TrailOffs.Both:
 
-                    tiles[0] = new Rectangle(619, 240, 53, 33);
-                    totalLength += 53;
+                    tiles[0] = new Rectangle(400, 175, 32, 33);
+                    totalLength += 32;
                     startIndex++;
 
-                    tiles[tiles.Length - 1] = new Rectangle(16, 240, 53, 33);
-                    totalLength += 53;
+                    tiles[tiles.Length - 1] = new Rectangle(256, 175, 32, 33);
+                    totalLength += 32;
                     endIndex--;
 
                     break;
@@ -90,20 +90,27 @@ namespace LostLives
             switch(trailOff)
             {
                 case TrailOffs.Left:
+
                     startIndex++;
-                    frontOffset = 53;
-                    base.Draw(tiles[0], new Vector2(21, 0), new Vector2(0, 1));
+                    frontOffset = 32;
+                    base.Draw(tiles[0], Vector2.Zero);
+
                     break;
                 case TrailOffs.Right:
+
                     endIndex--;
-                    base.Draw(tiles[endIndex], new Vector2(21, 0), new Vector2((tiles.Length - 1) * 32, 1));
+                    base.Draw(tiles[endIndex], Vector2.Zero, new Vector2((tiles.Length - 1) * 32, 0));
+
                     break;
                 case TrailOffs.Both:
+
                     startIndex++;
-                    frontOffset = 53;
-                    base.Draw(tiles[0], new Vector2(21, 0), new Vector2(0, 1));
+                    frontOffset = 32;
+                    base.Draw(tiles[0], Vector2.Zero);
+
                     endIndex--;
-                    base.Draw(tiles[endIndex], new Vector2(21, 0), new Vector2((tiles.Length - 2) * 32 + 53, 1));
+                    base.Draw(tiles[endIndex], Vector2.Zero, new Vector2((tiles.Length - 1) * 32, 0));
+
                     break;
             }
 

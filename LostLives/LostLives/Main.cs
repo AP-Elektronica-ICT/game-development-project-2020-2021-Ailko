@@ -51,6 +51,9 @@ namespace LostLives
 
             Globals.arial = Globals.content.Load<SpriteFont>("Fonts\\Arial16");
 
+            Globals.bg1 = Globals.content.Load<Texture2D>("Backgrounds\\background1");
+            Globals.bg2 = Globals.content.Load<Texture2D>("Backgrounds\\background2");
+
             Globals.currWorld = world;
             Globals.lastFrame = DateTime.Now;
         }
@@ -75,6 +78,8 @@ namespace LostLives
             // TODO: Add your drawing code here
 
             Globals.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+
+            Globals.spriteBatch.Draw(Globals.bg1, new Rectangle(0, 0, 800, 500), Color.White);
 
             world.Draw();
 

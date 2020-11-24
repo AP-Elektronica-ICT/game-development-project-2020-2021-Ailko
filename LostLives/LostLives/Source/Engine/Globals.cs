@@ -37,5 +37,8 @@ namespace LostLives
         public static World currWorld;
 
         public static SpriteFont arial;
+
+        public static Texture2D bg1;
+        public static Texture2D bg2;
     }
 }

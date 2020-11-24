@@ -21,6 +21,8 @@ namespace LostLives
         private int frame;
 
         private float speed = 2;
+        private float walkingAccelaration = 0.1f;
+        private float walkingAccelarationMultiplier = 1f;
         private float jumpForce = 7f;
         private float mass = 81.63f;
 
@@ -42,12 +44,12 @@ namespace LostLives
             if(Globals.keyboard.GetPress("Q") || Globals.keyboard.GetPress("Left"))
             {
                 if (vector.X > -speed)
-                    vector.X -= 0.1f;
+                    vector.X -= walkingAccelaration * walkingAccelarationMultiplier;
             }
             else if (Globals.keyboard.GetPress("D") || Globals.keyboard.GetPress("Right"))
             {
                 if (vector.X < speed)
-                    vector.X += 0.1f;
+                    vector.X += walkingAccelaration * walkingAccelarationMultiplier;
             }
             vector.X -= vector.X / 20;
 
@@ -61,13 +63,22 @@ namespace LostLives
             Vector2 collisionVector = Globals.currWorld.levels.GetCurrLevel().CollisionSpecifics(this);
 
             if (collisionVector.Y < 0)
+            {
                 hasJumped = false;
+                walkingAccelarationMultiplier = 1f;
+            }
+
+            if (vector.Y + collisionVector.Y > 0)
+            {
+                hasJumped = true;
+                walkingAccelarationMultiplier = 0.5f;
+            }
 
             if ((Globals.keyboard.GetPress("Z") || Globals.keyboard.GetPress("Space") || Globals.keyboard.GetPress("Up")) && !hasJumped)
             {
                 hasJumped = true;
-                jumpedFromY = pos.Y;
                 vector.Y -= jumpForce;
+                walkingAccelarationMultiplier = 0.5f;
             }
             if (!hasJumped)
             {
@@ -82,12 +93,6 @@ namespace LostLives
             vector.Y = (float)Math.Round(vector.Y, 3);
 
             pos = new Vector2(pos.X + vector.X, pos.Y + vector.Y);
-
-            /*if(pos.Y > 400)
-            {
-                pos.Y = 400;
-                vector.Y = 0;
-            }*/
         }
 
         public bool CollisionCheck(CollisionObject obj)
