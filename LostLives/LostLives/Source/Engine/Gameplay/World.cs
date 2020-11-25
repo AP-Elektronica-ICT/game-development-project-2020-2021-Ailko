@@ -42,7 +42,6 @@ namespace LostLives
                 }
             );
         }
-
         public virtual void Update()
         {
             Globals.deltaTime = DateTime.Now - Globals.lastFrame;
@@ -51,7 +50,6 @@ namespace LostLives
 
             Globals.lastFrame = DateTime.Now;
         }
-
         public virtual void Draw()
         {
             hero.Draw();

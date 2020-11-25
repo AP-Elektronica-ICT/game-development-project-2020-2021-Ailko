@@ -32,6 +32,7 @@ namespace LostLives
         #region movement
         private Vector2 vector = new Vector2(0f, 0f);
         private bool hasJumped = false;
+        private bool lastDiagonal = false;
         #endregion
 
         public Hero(string _path, Vector2 _pos, Vector2 _dims) : base(_path, _pos, _dims)

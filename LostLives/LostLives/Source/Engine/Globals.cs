@@ -42,6 +42,8 @@ namespace LostLives
         public static float gravity = 2 * 9.81f * metersPerPixel;
         public static float airDensity = 1.225f;
         public static float dragCoeff = 1f;
+
+        public static float cornerRadius = 25f;
         #endregion
         public static Random rng;
         public static World currWorld;

@@ -253,6 +253,5 @@ namespace LostLives
                 platform.Draw();
             }
         }
-
     }
 }
