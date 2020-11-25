@@ -17,38 +17,58 @@ namespace LostLives
 {
     public interface CollisionObject
     {
-        public abstract bool CollisionCheck(CollisionObject obj);
+        #region collision methods
         public static Vector2 CollisionSpecifics(CollisionObject obj1, CollisionObject obj2)
         {
+            #region creation variables
             Vector2 collisionVector = Vector2.Zero;
 
             Rectangle obj1Box = obj1.GetCollisionBox();
             Rectangle obj2Box = obj2.GetCollisionBox();
 
-            if(obj1Box.Bottom > obj2Box.Top && obj1Box.Top < obj2Box.Top && !(obj1Box.Left + obj1Box.Width / 2 <= obj2Box.Left || obj1Box.Right - obj1Box.Width / 2 >= obj2Box.Right))
+            float smallestWidth;
+            float smallestHeight;
+            if (obj1Box.Width < obj2Box.Width)
+                smallestWidth = obj1Box.Width;
+            else
+                smallestWidth = obj2Box.Width;
+
+            if (obj1Box.Height < obj2Box.Height)
+                smallestHeight = obj1Box.Height;
+            else
+                smallestHeight = obj2Box.Height;
+            #endregion
+            #region collision
+            #region vertical collision
+            if (obj1Box.Bottom > obj2Box.Top && obj1Box.Top < obj2Box.Top && !(obj1Box.Left + obj1Box.Width / 2 <= obj2Box.Left || obj1Box.Right - obj1Box.Width / 2 >= obj2Box.Right))
             {
-                if(obj1.GetSpeed().Y > 0)
-                    collisionVector.Y -= obj1.GetSpeed().Y * (1 + (obj2.GetBounciness() / 10)) * (1 + ((obj1Box.Bottom - obj2Box.Top) / obj1Box.Height) * 100);
+                if (obj1.GetSpeed().Y > 0)
+                    collisionVector.Y -= obj1.GetSpeed().Y * (1 + (obj2.GetBounciness() / 10)) * (float)Math.Pow(1 + ((obj1Box.Bottom - obj2Box.Top) / smallestHeight), 2);
             }
-            else if(obj1Box.Top < obj2Box.Bottom && obj1Box.Bottom > obj2Box.Bottom && !(obj1Box.Left + obj1Box.Width / 2 <= obj2Box.Left || obj1Box.Right - obj1Box.Width / 2 >= obj2Box.Right))
+            else if (obj1Box.Top < obj2Box.Bottom && obj1Box.Bottom > obj2Box.Bottom && !(obj1Box.Left + obj1Box.Width / 2 <= obj2Box.Left || obj1Box.Right - obj1Box.Width / 2 >= obj2Box.Right))
             {
                 if (obj1.GetSpeed().Y < 0)
-                    collisionVector.Y -= obj1.GetSpeed().Y * (1 + (obj2.GetBounciness() / 10)) * (1 + ((obj1Box.Top - obj2Box.Bottom) / obj1Box.Height) * 100);
+                    collisionVector.Y -= obj1.GetSpeed().Y * (1 + (obj2.GetBounciness() / 10)) * (float)Math.Pow(1 + ((obj1Box.Top - obj2Box.Bottom) / smallestHeight), 2);
             }
-
-            if(obj1Box.Right > obj2Box.Left && obj1Box.Left < obj2Box.Left && (obj1Box.Top + obj1Box.Height / 2 <= obj2Box.Top || obj1Box.Bottom - obj1Box.Height / 2 >= obj2Box.Top))
+            #endregion
+            #region horizontal collision
+            if (obj1Box.Right > obj2Box.Left && obj1Box.Left < obj2Box.Left && !(obj1Box.Top + obj1Box.Height / 2 <= obj2Box.Top || obj1Box.Bottom - obj1Box.Height / 2 >= obj2Box.Bottom))
             {
                 if (obj1.GetSpeed().X > 0)
-                    collisionVector.X -= obj1.GetSpeed().X * (1 + (obj2.GetBounciness() / 10)) + (1 + ((obj1Box.Right - obj2Box.Left) / obj1Box.Width) * 100);
+                    collisionVector.X -= obj1.GetSpeed().X * (1 + (obj2.GetBounciness() / 10)) * (float)Math.Pow(1 + ((obj1Box.Right - obj2Box.Left) / smallestWidth), 2);
             }
-            else if (obj1Box.Left < obj2Box.Right && obj1Box.Right > obj2Box.Right && (obj1Box.Top + obj1Box.Height / 2 <= obj2Box.Top || obj1Box.Bottom - obj1Box.Height / 2 >= obj2Box.Top))
+            else if (obj1Box.Left < obj2Box.Right && obj1Box.Right > obj2Box.Right && !(obj1Box.Top + obj1Box.Height / 2 <= obj2Box.Top || obj1Box.Bottom - obj1Box.Height / 2 >= obj2Box.Bottom))
             {
                 if (obj1.GetSpeed().X < 0)
-                    collisionVector.X -= obj1.GetSpeed().X * (1 + (obj2.GetBounciness() / 10)) + (1 + ((obj1Box.Left - obj2Box.Right) / obj1Box.Width) * 100);
+                    collisionVector.X -= obj1.GetSpeed().X * (1 + (obj2.GetBounciness() / 10)) * (float)Math.Pow(1 + ((obj1Box.Left - obj2Box.Right) / smallestWidth), 2);
             }
-
+            #endregion
+            #endregion
             return collisionVector;
         }
+        public abstract bool CollisionCheck(CollisionObject obj);
+        #endregion
+        #region virtual Get-methods
         public virtual Rectangle GetCollisionBox()
         {
             return Rectangle.Empty;
@@ -61,5 +81,6 @@ namespace LostLives
         {
             return 0;
         }
+        #endregion
     }
 }

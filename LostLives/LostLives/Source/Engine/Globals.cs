@@ -17,29 +17,33 @@ namespace LostLives
 {
     public class Globals
     {
+        #region drawing
         public static ContentManager content;
         public static SpriteBatch spriteBatch;
-
-        public static LLKeyboard keyboard;
-
-        public static DateTime lastFrame;
-        public static TimeSpan deltaTime;
-
-        public static float metersPerPixel = 1.8288f / 54;
-
-        public static float gravity = 9.81f * metersPerPixel;
-        public static float airDensity = 1.225f;
-        public static float dragCoeff = 1f;
-
-        public static Random rng;
-
         public static Vector2 screenSize;
-
-        public static World currWorld;
-
-        public static SpriteFont arial;
-
+        #endregion
+        #region backgrounds
         public static Texture2D bg1;
         public static Texture2D bg2;
+        #endregion
+        #region fonts
+        public static SpriteFont arial;
+        #endregion
+        #region input
+        public static LLKeyboard keyboard;
+        #endregion
+        #region timing frame
+        public static DateTime lastFrame;
+        public static TimeSpan deltaTime;
+        #endregion
+        #region physics constants
+        public static float metersPerPixel = 1.8288f / 54;
+
+        public static float gravity = 2 * 9.81f * metersPerPixel;
+        public static float airDensity = 1.225f;
+        public static float dragCoeff = 1f;
+        #endregion
+        public static Random rng;
+        public static World currWorld;
     }
 }

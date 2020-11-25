@@ -17,8 +17,10 @@ namespace LostLives
 {
     public class Sprite
     {
+        #region variables
         public Vector2 pos, dims;
         public Texture2D sprite;
+        #endregion
 
         public Sprite(string _path, Vector2 _pos, Vector2 _dims)
         {
@@ -33,6 +35,7 @@ namespace LostLives
 
         }
 
+        #region draw methods
         public virtual void Draw()
         {
             if(sprite != null)
@@ -56,7 +59,6 @@ namespace LostLives
                     );
             }
         }
-
         public virtual void Draw(Rectangle frame, Vector2 dimChange, SpriteEffects effect = SpriteEffects.None)
         {
             if (sprite != null)
@@ -80,8 +82,7 @@ namespace LostLives
                     );
             }
         }
-
-        public virtual void Draw(Rectangle frame, Vector2 dimChange, Vector2 posChange, SpriteEffects effect = SpriteEffects.None)
+        public virtual void Draw(Rectangle frame, Vector2 dimChange, Vector2 posChange,  SpriteEffects effect = SpriteEffects.None)
         {
             if (sprite != null)
             {
@@ -104,5 +105,6 @@ namespace LostLives
                     );
             }
         }
+        #endregion
     }
 }

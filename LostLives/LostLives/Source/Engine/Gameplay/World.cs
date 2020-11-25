@@ -22,36 +22,21 @@ namespace LostLives
 
         public World()
         {
-            hero = new Hero("Sprites\\DoomGuy", new Vector2(64, 200), new Vector2(41, 54));
+            hero = new Hero("Sprites\\DoomGuy", new Vector2(64, 330), new Vector2(41, 54));
             levels = new Levels
             (
                 new Level[]
                 {
                     new Level
                     (
-                        new Platform[]
+                        new Rectangle[]
                         {
-                            new Platform
-                            (
-                                1,
-                                17,
-                                new Vector2(0, 0),
-                                _rightIntersectPos: "384,448"
-                            ),
-                            new Platform
-                            (
-                                20,
-                                2,
-                                new Vector2(32, 384),
-                                WallAdjacent.Left
-                            ),
-
-                            new Platform
-                            (
-                                5,
-                                1,
-                                new Vector2(420, 288)
-                            )
+                            new Rectangle(-1, -2, 2, 19),
+                            new Rectangle(1, 12, 20, 4),
+                            new Rectangle(13, 8, 5, 2),
+                            new Rectangle(7, 10, 3, 2),
+                            new Rectangle(1, -1, 20, 2),
+                            new Rectangle(6, 6, 3, 2)
                         }
                     )
                 }
