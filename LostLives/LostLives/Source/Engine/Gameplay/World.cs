@@ -33,10 +33,11 @@ namespace LostLives
                         {
                             new Rectangle(-1, -2, 2, 19),
                             new Rectangle(1, 12, 20, 4),
-                            new Rectangle(13, 8, 5, 2),
+                            new Rectangle(13, 8, 7, 2),
                             new Rectangle(7, 10, 3, 2),
                             new Rectangle(1, -1, 20, 2),
-                            new Rectangle(6, 6, 3, 2)
+                            new Rectangle(6, 6, 3, 2),
+                            new Rectangle(22, 9, 5, 3)
                         }
                     )
                 }
