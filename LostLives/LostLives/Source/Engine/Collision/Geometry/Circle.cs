@@ -30,12 +30,20 @@ namespace LostLives
         {
             Vector2[] solutions;
             float[] solutionXs;
-            float A = line.multipliers.X;
-            float B = line.multipliers.Y;
-            float C = line.constant;
-            float Discriminant = (float)(Math.Pow((2 * A * C) / B, 2) - (4 + 4 * Math.Pow(A, 2)) * (Math.Pow(C / B, 2) - Math.Pow(center.X, 2) - Math.Pow(center.Y, 2) - Math.Pow(radius, 2)));
+            float A = line.GetSlopeIntercept();
+            float B = line.GetSlopeInterceptConstant();
+            float h = center.X;
+            float k = center.Y;
+            float r = radius;
 
-            if(Discriminant < 0)
+            #region  calculating discriminant
+            float a = 1 + (float)Math.Pow(A, 2);
+            float b = 2 * (-h + A*B - A*k);
+            float c = (float)Math.Pow(h, 2) + (float)Math.Pow(k, 2) - (float)Math.Pow(r, 2) + (float)Math.Pow(B, 2) - 2 * B * k;
+            float Discriminant = (float)Math.Pow(b, 2) - 4 * a * c;
+
+            #endregion
+            if (Discriminant < 0)
             {
                 return null;
             }
@@ -50,17 +58,23 @@ namespace LostLives
                 solutions = new Vector2[1];
             }
 
-            for(int i = 0; i < solutionXs.Length; i++)
+            #region find solution X(s)
+            for (int i = 0; i < solutionXs.Length; i++)
             {
-                solutionXs[i] = ((-2 * A * C) / B + (float)Math.Sqrt(Discriminant) * (1 - 2 * i)) / (2 + 2 * (float)Math.Pow(A, 2));
+                solutionXs[i] = (-b + (1 - 2 * i) * (float)Math.Sqrt(Discriminant))/(2 * a);
             }
-
+            #endregion
             for (int i = 0; i < solutions.Length; i++)
             {
-                solutions[i] = new Vector2(solutionXs[i], A * solutionXs[i] - (C / B));
+                solutions[i] = new Vector2(solutionXs[i], A * solutionXs[i] + B);
             }
 
             return solutions;
+        }
+
+        public override string ToString()
+        {
+            return $"(x - {center.X})^2 + (y - {center.Y})^2 = {radius}^2";
         }
     }
 }

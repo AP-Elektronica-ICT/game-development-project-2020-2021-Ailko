@@ -28,24 +28,34 @@ namespace LostLives
         public Line(Vector2 pos1, Vector2 pos2)
         {
             float slope = (pos2.Y - pos1.Y) / (pos2.X - pos1.X);
-            multipliers = new Vector2(slope, 1);
+            multipliers = new Vector2(-slope, 1);
             constant = -slope * pos1.X + pos1.Y;
         }
 
         #region get slope intercept formula
         public float GetSlopeIntercept()
         {
-            return -multipliers.X;
+            return -multipliers.X / multipliers.Y;
         }
         public float GetSlopeInterceptConstant()
         {
-            return -constant / multipliers.Y;
+            return constant / multipliers.Y;
         }
         #endregion
         public Vector2 Intersect(Line line)
         {
-            float intersectX = (line.GetSlopeInterceptConstant() - GetSlopeInterceptConstant()) / (GetSlopeIntercept() - line.GetSlopeIntercept());
-            return new Vector2(intersectX, GetSlopeIntercept() * intersectX + GetSlopeInterceptConstant());
+            #region declaration variables simplified form formula
+            float A = GetSlopeIntercept();
+            float B = GetSlopeInterceptConstant();
+            float C = line.GetSlopeIntercept();
+            float D = line.GetSlopeInterceptConstant();
+            #endregion
+            return new Vector2((D - B) / (A - C), (A * D - A * B) / (A - C) + B);
+        }
+
+        public override string ToString()
+        {
+            return $"{multipliers.X} x + {multipliers.Y} y = {constant}";
         }
     }
 }

@@ -43,7 +43,7 @@ namespace LostLives
         public static float airDensity = 1.225f;
         public static float dragCoeff = 1f;
 
-        public static float cornerRadius = 25f;
+        public static float cornerRadius = 7.5f;
         #endregion
         public static Random rng;
         public static World currWorld;

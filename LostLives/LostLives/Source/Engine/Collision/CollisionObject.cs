@@ -82,30 +82,8 @@ namespace LostLives
             #region diagonal collision
             if(angle == collisionAngle.Diagonal)
             {
-                Vector2 centerPoint = Vector2.Zero;
-                Vector2 closestPointObj1 = Vector2.Zero;
-                if (obj1Midpoint.Y < obj2Box.Top)
-                {
-                    centerPoint.Y = obj2Box.Top;
-                    closestPointObj1.Y = obj1Box.Bottom;
-                }
-                else
-                {
-                    centerPoint.Y = obj2Box.Bottom;
-                    closestPointObj1.Y = obj1Box.Top;
-                }
-                if (obj1Midpoint.X < obj2Box.Left)
-                {
-                    centerPoint.X = obj2Box.Left;
-                    closestPointObj1.X = obj1Box.Right;
-                }
-                else
-                {
-                    centerPoint.X = obj2Box.Right;
-                    closestPointObj1.X = obj1Box.Left;
-                }
-                
-                collisionVector += DiagonalCollision(obj1, new Circle(centerPoint, Globals.cornerRadius), closestPointObj1);
+                Vector2 center = new Vector2((obj2Box.Right - obj2Box.Left) / 2, (obj2Box.Bottom - obj2Box.Top) / 2);
+                collisionVector += DiagonalCollision(obj1, new Circle(center, Vector2.Distance(center, new Vector2(obj2Box.X, obj2Box.Y)))) * Globals.metersPerPixel/* (float)Globals.deltaTime.TotalSeconds*/;
             }
             #endregion
             #endregion
@@ -126,16 +104,22 @@ namespace LostLives
         {
             return 0;
         }
+        public virtual Vector2 GetCenter()
+        {
+            Rectangle collBox = GetCollisionBox();
+            return new Vector2((collBox.Right - collBox.Left) / 2, (collBox.Bottom - collBox.Top) / 2);
+        }
         #endregion
 
-        private static Vector2 DiagonalCollision(CollisionObject obj1, Circle corner, Vector2 startPos)
+        private static Vector2 DiagonalCollision(CollisionObject obj1, Circle corner)
         {
             #region variables from obj1
             Vector2 speed = obj1.GetSpeed();
+            Vector2 startPos = obj1.GetCenter();
             #endregion
-
+            
             #region Get line from movement vector and position
-            Line trajectoryObj = new Line(speed, startPos);
+            Line trajectoryObj = new Line(startPos, startPos + speed);
             #endregion
             #region Find where line intersects circle
             Vector2[] intersects = corner.Intersects(trajectoryObj);
@@ -167,7 +151,7 @@ namespace LostLives
             Vector2 endPoint = intersectPerp + diffStartIntersect;
             #endregion
             #region Return vector from intersect of incoming vector's intersect with circle to reflected point
-            return endPoint - closest;
+            return -(endPoint - closest) - speed;
             #endregion
 
             //Illustration in documentation
@@ -175,19 +159,23 @@ namespace LostLives
 
         private static int GetClosestVector(Vector2[] compare, Vector2 compareTo)
         {
-            int currClosest = -1;
-            float currClosestDist = float.MaxValue;
-
-            for(int i = 0; i < compare.Length; i++)
+            if (compare != null)
             {
-                if(Vector2.Distance(compareTo, compare[i]) < currClosestDist)
-                {
-                    currClosestDist = Vector2.Distance(compareTo, compare[i]);
-                    currClosest = i;
-                }
-            }
+                int currClosest = -1;
+                float currClosestDist = float.MaxValue;
 
-            return currClosest;
+                for (int i = 0; i < compare.Length; i++)
+                {
+                    if (Vector2.Distance(compareTo, compare[i]) < currClosestDist)
+                    {
+                        currClosestDist = Vector2.Distance(compareTo, compare[i]);
+                        currClosest = i;
+                    }
+                }
+
+                return currClosest;
+            }
+            return -1;
         }
     }
 }
