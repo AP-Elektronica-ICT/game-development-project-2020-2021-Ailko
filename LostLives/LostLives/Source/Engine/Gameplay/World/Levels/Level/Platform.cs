@@ -179,14 +179,32 @@ namespace LostLives
                         }
                         else
                         {
-                            tiles[0, x] = PickTile(floorTiles);
+                            if (isVoid(topIntersects, x + 1))
+                            {
+                                if (isVoid(topIntersects, x - 1))
+                                {
+                                    tiles[0, x] = PickTile(floorTiles);
+                                }
+                                else
+                                {
+                                    tiles[0, x] = PickTile(wallAdjacentFloorTiles, 0.5f);
+                                }
+                            }
+                            else if (isVoid(topIntersects, x - 1) && x > 1)
+                            {
+                                tiles[0, x] = PickTile(wallAdjacentFloorTiles, -0.5f);
+                            }
+                            else
+                            {
+                                tiles[0, x] = PickTile(floorTiles);
+                            }
                         }
                     }
                     #endregion
                     #region right tile
                     if (isVoid(topIntersects, _width))
                     {
-                        tiles[0, _width - 1] = wallAdjacentFloorTiles[1];
+                        tiles[0, _width - 1] = PickTile(wallAdjacentFloorTiles, 0.5f);
                         cornerBorders[0, 1] = true;
                     }
                     else
@@ -210,14 +228,12 @@ namespace LostLives
                             tiles[y, 0] = borderTiles[0];
                         }
                         #endregion
-
                         #region middle tiles
                         for (int x = 1; x < _width - 1; x++)
                         {
                             tiles[y, x] = PickTile(voidFillerTiles[Globals.rng.Next(0, 2)]);
                         }
                         #endregion
-
                         #region right tile
                         if (isVoid(rightIntersects, y))
                         {
@@ -263,7 +279,26 @@ namespace LostLives
                         }
                         else
                         {
-                            tiles[_height - 1, x] = PickTile(ceilingTiles);
+
+                            if (isVoid(botIntersects, x + 1))
+                            {
+                                if (isVoid(botIntersects, x - 1))
+                                {
+                                    tiles[(int)totalDims.Y - 1, x] = PickTile(ceilingTiles);
+                                }
+                                else
+                                {
+                                    tiles[(int)totalDims.Y - 1, x] = PickTile(wallAdjacentCeilingTiles, 0.5f);
+                                }
+                            }
+                            else if (isVoid(botIntersects, x - 1) && x > 1)
+                            {
+                                tiles[(int)totalDims.Y - 1, x] = PickTile(wallAdjacentCeilingTiles, -0.5f);
+                            }
+                            else
+                            {
+                                tiles[(int)totalDims.Y - 1, x] = PickTile(ceilingTiles);
+                            }
                         }
                     }
                     #endregion
@@ -455,7 +490,7 @@ namespace LostLives
                     {
                         for(int x = 0; x < totalDims.X; x++)
                         {
-                            base.Draw(tiles[y, x], Vector2.Zero, new Vector2(x * 32, y * 32));
+                            base.Draw(tiles[y, x], Vector2.Zero, new Vector2(x * 32, y * 32 - (normalDims.Y - tiles[y, x].Height)));
                         }
                     }
                     #endregion
@@ -469,7 +504,7 @@ namespace LostLives
                     #region middle tiles
                     for(int x = 1; x < totalDims.X - 1; x++)
                     {
-                        base.Draw(tiles[(int)totalDims.Y - 1, x], Vector2.Zero, new Vector2(x * 32, (totalDims.Y - 1) * 32));
+                        base.Draw(tiles[(int)totalDims.Y - 1, x], new Vector2(tiles[(int)totalDims.Y - 1, x].Width, tiles[(int)totalDims.Y - 1, x].Height) - normalDims, new Vector2(x * 32, (totalDims.Y - 1) * 32));
                     }
                     #endregion
                     #region last tile

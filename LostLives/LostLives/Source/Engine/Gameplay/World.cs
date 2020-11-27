@@ -37,7 +37,9 @@ namespace LostLives
                             new Rectangle(7, 10, 3, 2),
                             new Rectangle(1, -1, 20, 2),
                             new Rectangle(6, 6, 3, 2),
-                            new Rectangle(22, 9, 5, 3)
+                            new Rectangle(22, 10, 5, 3),
+                            new Rectangle(11, 10, 2, 2),
+                            new Rectangle(6, -2, 4, 6)
                         }
                     )
                 }
