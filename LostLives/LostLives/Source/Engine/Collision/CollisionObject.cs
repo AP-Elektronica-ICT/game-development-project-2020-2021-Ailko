@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace LostLives
 {
-    enum collisionAngle { Horizontale, Vertical, Diagonal, None }
+    enum collisionAngle { Horizontale, Vertical, Diagonal, None, Inside }
     public interface CollisionObject
     {
         #region collision methods
@@ -44,20 +44,23 @@ namespace LostLives
                 smallestHeight = obj2Box.Height;
             #endregion
             #region determine collision angle
-            if (obj1Midpoint.Y < obj2Box.Top || obj1Midpoint.Y > obj2Box.Bottom)
+            if ((obj1Midpoint.X < obj2Box.Left - obj1Box.Width / 2 || obj1Midpoint.X > obj2Box.Right + obj1Box.Width / 2) || (obj1Midpoint.Y < obj2Box.Bottom && obj1Midpoint.Y > obj2Box.Top))
             {
-                if (obj1Midpoint.X < obj2Box.Left || obj1Midpoint.X > obj2Box.Right)
+                if (obj1Midpoint.Y < obj2Box.Top || obj1Midpoint.Y > obj2Box.Bottom)
                 {
-                    angle = collisionAngle.Diagonal;
+                    if ((obj1Midpoint.X > obj2Box.Left && obj1Midpoint.X < obj2Box.Right) || (obj1Midpoint.Y > obj2Box.Top && obj1Midpoint.Y < obj2Box.Bottom))
+                        angle = collisionAngle.Inside;
+                    else
+                        angle = collisionAngle.Diagonal;
                 }
                 else
                 {
-                    angle = collisionAngle.Vertical;
+                    angle = collisionAngle.Horizontale;
                 }
             }
             else
             {
-                angle = collisionAngle.Horizontale;
+                angle = collisionAngle.Vertical;
             }
             #endregion
             #region collision
@@ -84,6 +87,33 @@ namespace LostLives
             {
                 Vector2 center = new Vector2((obj2Box.Right - obj2Box.Left) / 2, (obj2Box.Bottom - obj2Box.Top) / 2);
                 collisionVector += DiagonalCollision(obj1, new Circle(center, Vector2.Distance(center, new Vector2(obj2Box.X, obj2Box.Y)))) * Globals.metersPerPixel/* (float)Globals.deltaTime.TotalSeconds*/;
+            }
+            #endregion
+            #region inside collision
+            if(angle == collisionAngle.Inside)
+            {
+                Vector2 vectMidPlayerToMid = obj2.GetCenter() - obj1Midpoint;
+                Line line = new Line(obj1Midpoint, obj2.GetCenter());
+                List<Vector2> intersects = new List<Vector2>();
+                {
+                    Vector2 temp = Vector2.Zero;
+                    temp = line.whereX(obj2Box.Left);
+                    if (temp.Y <= obj2Box.Bottom && temp.Y >= obj2Box.Top)
+                        intersects.Add(new Vector2(temp.X, temp.Y));
+                    temp = line.whereX(obj2Box.Right);
+                    if (temp.Y <= obj2Box.Bottom && temp.Y >= obj2Box.Top)
+                        intersects.Add(new Vector2(temp.X, temp.Y));
+                    temp = line.whereY(obj2Box.Bottom);
+                    if (temp.X <= obj2Box.Right && temp.X >= obj2Box.Left)
+                        intersects.Add(new Vector2(temp.X, temp.Y));
+                    temp = line.whereY(obj2Box.Top);
+                    if (temp.X <= obj2Box.Right && temp.X >= obj2Box.Left)
+                        intersects.Add(new Vector2(temp.X, temp.Y));
+                }
+                int closest = GetClosestVector(intersects.ToArray(), obj1Midpoint);
+                Vector2 closestVect = intersects[closest];
+                Vector2 resultVect = (obj2.GetCenter() - closestVect) - vectMidPlayerToMid;
+                collisionVector += -resultVect;
             }
             #endregion
             #endregion
@@ -139,10 +169,10 @@ namespace LostLives
             Line middlePointThroughIntersect = new Line(closest, corner.center);
             #endregion
             #region Construct a line perpandicular to this line through the startpoint
-            Line PerpendicularLineThroughStart = new Line(new Vector2(middlePointThroughIntersect.multipliers.Y, -middlePointThroughIntersect.multipliers.X), startPoint);
+            Line PerpendicularLineThroughStart = new Line(new Vector2(middlePointThroughIntersect.twoPointFormY, -middlePointThroughIntersect.twoPointFormX), startPoint);
             #endregion
             #region Find the intersection of the perpandicular with the line through the center of the circle
-            Vector2 intersectPerp = PerpendicularLineThroughStart.Intersect(middlePointThroughIntersect);
+            Vector2 intersectPerp = PerpendicularLineThroughStart.Intersects(middlePointThroughIntersect);
             #endregion
             #region Find vector from startposition to intersect of perpandicular and center line
             Vector2 diffStartIntersect = intersectPerp - startPoint;

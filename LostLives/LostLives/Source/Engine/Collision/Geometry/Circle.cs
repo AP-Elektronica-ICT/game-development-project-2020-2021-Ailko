@@ -30,8 +30,8 @@ namespace LostLives
         {
             Vector2[] solutions;
             float[] solutionXs;
-            float A = line.GetSlopeIntercept();
-            float B = line.GetSlopeInterceptConstant();
+            float A = line.slope;
+            float B = line.slopeInterceptConstant;
             float h = center.X;
             float k = center.Y;
             float r = radius;
